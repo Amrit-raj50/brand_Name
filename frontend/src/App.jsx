@@ -1,0 +1,53 @@
+import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import CartDrawer from './components/CartDrawer';
+import Home from './pages/Home';
+import Shop from './pages/Shop';
+import ProductDetail from './pages/ProductDetail';
+import Checkout from './pages/Checkout';
+
+// Scroll to top on route change
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
+
+function App() {
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  return (
+    <Router>
+      <ScrollToTop />
+      <div className="font-sans text-foreground bg-background min-h-screen flex flex-col">
+        {/* We want to hide Navbar and Footer on Checkout page for a cleaner look, but for simplicity we will keep them or render conditionally */}
+        <Routes>
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="*" element={
+            <>
+              <Navbar onCartClick={() => setIsCartOpen(true)} />
+              <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+              
+              <main className="flex-grow">
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/shop" element={<Shop />} />
+                  <Route path="/product/:id" element={<ProductDetail />} />
+                  <Route path="/about" element={<div className="py-20 text-center font-serif text-3xl">About Us - Coming Soon</div>} />
+                </Routes>
+              </main>
+
+              <Footer />
+            </>
+          } />
+        </Routes>
+      </div>
+    </Router>
+  );
+}
+
+export default App;
