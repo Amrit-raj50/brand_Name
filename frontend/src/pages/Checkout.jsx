@@ -150,7 +150,7 @@ const Checkout = () => {
 
                       // 3. Open Razorpay Checkout
                       const options = {
-                        key: "rzp_test_placeholder", // Replace with real key ID later
+                        key: import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_placeholder", 
                         amount: rzpOrder.amount,
                         currency: "INR",
                         name: "BRAND.",
