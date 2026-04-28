@@ -12,7 +12,8 @@ const AdminDashboard = () => {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const res = await fetch('/api/products');
+      const API_URL = import.meta.env.VITE_API_URL || '';
+      const res = await fetch(`${API_URL}/api/products`);
       const data = await res.json();
       setProducts(data);
     } catch (error) {
@@ -29,7 +30,8 @@ const AdminDashboard = () => {
   const createProductHandler = async () => {
     if (window.confirm('Are you sure you want to create a new product?')) {
       try {
-        const res = await fetch('/api/products', {
+        const API_URL = import.meta.env.VITE_API_URL || '';
+        const res = await fetch(`${API_URL}/api/products`, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${userInfo.token}`,
@@ -51,7 +53,8 @@ const AdminDashboard = () => {
   const deleteHandler = async (id) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
-        const res = await fetch(`/api/products/${id}`, {
+        const API_URL = import.meta.env.VITE_API_URL || '';
+        const res = await fetch(`${API_URL}/api/products/${id}`, {
           method: 'DELETE',
           headers: {
             Authorization: `Bearer ${userInfo.token}`,

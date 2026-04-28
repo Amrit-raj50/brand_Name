@@ -59,7 +59,8 @@ const Checkout = () => {
                   className="bg-black text-white px-8 py-4 font-medium rounded-md hover:bg-gray-800 transition-colors"
                   onClick={async () => {
                     try {
-                      const res = await fetch('/api/orders', {
+                      const API_URL = import.meta.env.VITE_API_URL || '';
+                      const res = await fetch(`${API_URL}/api/orders`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({

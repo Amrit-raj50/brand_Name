@@ -20,7 +20,8 @@ const AdminProductEdit = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await fetch(`/api/products/${id}`);
+        const API_URL = import.meta.env.VITE_API_URL || '';
+        const res = await fetch(`${API_URL}/api/products/${id}`);
         const data = await res.json();
         
         if (res.ok) {
@@ -45,7 +46,8 @@ const AdminProductEdit = () => {
     e.preventDefault();
     setUpdating(true);
     try {
-      const res = await fetch(`/api/products/${id}`, {
+      const API_URL = import.meta.env.VITE_API_URL || '';
+      const res = await fetch(`${API_URL}/api/products/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

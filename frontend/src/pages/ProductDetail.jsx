@@ -19,7 +19,8 @@ const ProductDetail = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await fetch(`/api/products/${id}`);
+        const API_URL = import.meta.env.VITE_API_URL || '';
+        const res = await fetch(`${API_URL}/api/products/${id}`);
         if (!res.ok) throw new Error('Product not found');
         const data = await res.json();
         setProduct(data);
@@ -27,9 +28,11 @@ const ProductDetail = () => {
         setSelectedColor(data.colors?.[0] || '');
         
         // Fetch similar products
-        const resAll = await fetch('/api/products');
-        const allData = await resAll.json();
-        setSimilarProducts(allData.slice(0, 4));
+        const similarRes = await fetch(`${API_URL}/api/products`);
+        if (similarRes.ok) {
+          const allData = await similarRes.json();
+          setSimilarProducts(allData.slice(0, 4));
+        }
       } catch (error) {
         console.error('Failed to fetch product:', error);
       } finally {
