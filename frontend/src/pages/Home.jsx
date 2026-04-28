@@ -1,11 +1,27 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
-import { categories, products, reviews, images } from '../data/mockData';
+import { categories, reviews, images } from '../data/mockData';
 
 const Home = () => {
-  const newArrivals = products.filter(p => p.isNew);
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch('/api/products');
+        const data = await res.json();
+        setProducts(data);
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  const newArrivals = products.filter(p => p.isNewArrival);
   const bestSellers = products.slice(0, 4);
 
   return (
@@ -100,13 +116,13 @@ const Home = () => {
         </div>
         <div className="flex overflow-x-auto pb-8 snap-x snap-mandatory hide-scrollbar gap-6 pr-4 md:pr-8">
           {newArrivals.map(product => (
-            <div key={product.id} className="min-w-[280px] md:min-w-[320px] snap-start">
+            <div key={product._id || product.id} className="min-w-[280px] md:min-w-[320px] snap-start">
               <ProductCard product={product} />
             </div>
           ))}
           {/* Duplicate products for demo scroll width */}
           {newArrivals.map(product => (
-             <div key={`${product.id}-dup`} className="min-w-[280px] md:min-w-[320px] snap-start">
+             <div key={`${product._id || product.id}-dup`} className="min-w-[280px] md:min-w-[320px] snap-start">
                <ProductCard product={product} />
              </div>
           ))}
@@ -154,7 +170,7 @@ const Home = () => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {bestSellers.map(product => (
-            <div key={product.id} className="relative">
+            <div key={product._id || product.id} className="relative">
               <div className="absolute top-3 left-3 bg-accent text-white text-[10px] font-bold px-2 py-1 uppercase tracking-wider z-10 flex items-center">
                 <Star size={10} className="mr-1 fill-current" /> {product.salesCount} Sold
               </div>

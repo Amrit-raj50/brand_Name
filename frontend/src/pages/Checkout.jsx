@@ -55,7 +55,28 @@ const Checkout = () => {
               
               <div className="flex justify-between items-center">
                 <Link to="/shop" className="text-sm font-medium hover:text-accent">&lt; Return to cart</Link>
-                <button className="bg-black text-white px-8 py-4 font-medium rounded-md hover:bg-gray-800 transition-colors">
+                <button 
+                  className="bg-black text-white px-8 py-4 font-medium rounded-md hover:bg-gray-800 transition-colors"
+                  onClick={async () => {
+                    try {
+                      const res = await fetch('/api/orders', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          orderItems: [{ name: "Test Product", qty: 1, image: "/placeholder.jpg", price: 3499, size: "M", color: "Sage", product: "60d21b4667d0d8992e610c85" }],
+                          shippingAddress: { fullName: "Test User", address: "123 Test St", city: "City", postalCode: "12345", country: "India" },
+                          paymentMethod: "Card",
+                          itemsPrice: 3499,
+                          shippingPrice: 0,
+                          totalPrice: 3679
+                        })
+                      });
+                      if (res.ok) alert('Order placed successfully (Simulated backend post)!');
+                    } catch (e) {
+                      console.error(e);
+                    }
+                  }}
+                >
                   Continue to Payment
                 </button>
               </div>

@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Heart, ShoppingBag, Menu, X } from 'lucide-react';
+import { Search, Heart, ShoppingBag, Menu, X, User } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = ({ onCartClick }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const { userInfo, logout } = useAuth();
 
   return (
     <>
@@ -41,6 +44,42 @@ const Navbar = ({ onCartClick }) => {
               <button className="text-foreground/80 hover:text-foreground transition-colors hidden sm:block">
                 <Heart size={20} />
               </button>
+
+              {userInfo ? (
+                <div className="relative">
+                  <button 
+                    onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+                    className="flex items-center text-sm font-medium text-foreground/80 hover:text-foreground transition-colors"
+                  >
+                    <User size={20} className="mr-1" />
+                    <span className="hidden sm:inline-block">{userInfo.name.split(' ')[0]}</span>
+                  </button>
+                  
+                  {isProfileMenuOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-100 shadow-lg py-1 z-50">
+                      <Link to="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50" onClick={() => setIsProfileMenuOpen(false)}>Profile</Link>
+                      
+                      {userInfo.isAdmin && (
+                        <Link to="/admin/dashboard" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 border-b border-gray-100 font-medium" onClick={() => setIsProfileMenuOpen(false)}>
+                          Admin Dashboard
+                        </Link>
+                      )}
+
+                      <button 
+                        onClick={() => { logout(); setIsProfileMenuOpen(false); }}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link to="/login" className="text-foreground/80 hover:text-foreground transition-colors flex items-center">
+                  <User size={20} />
+                </Link>
+              )}
+
               <button 
                 className="text-foreground/80 hover:text-foreground transition-colors relative"
                 onClick={onCartClick}
@@ -97,6 +136,11 @@ const Navbar = ({ onCartClick }) => {
               <div className="mt-auto p-4 border-t border-foreground/10 flex space-x-6">
                 <Search size={24} className="text-foreground/70" />
                 <Heart size={24} className="text-foreground/70" />
+                {userInfo ? (
+                  <button onClick={() => { logout(); setIsMobileMenuOpen(false); }} className="text-foreground/70 font-medium">Logout</button>
+                ) : (
+                  <Link to="/login" onClick={() => setIsMobileMenuOpen(false)} className="text-foreground/70"><User size={24} /></Link>
+                )}
               </div>
             </motion.div>
           </>

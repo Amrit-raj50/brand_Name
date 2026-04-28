@@ -13,7 +13,7 @@ const ProductCard = ({ product }) => {
     >
       {/* Image Container */}
       <div className="relative aspect-[3/4] bg-gray-100 overflow-hidden mb-4">
-        {product.isNew && (
+        {product.isNewArrival && (
           <div className="absolute top-3 left-3 bg-white text-black text-[10px] font-bold px-2 py-1 uppercase tracking-wider z-10">
             New
           </div>
@@ -22,9 +22,9 @@ const ProductCard = ({ product }) => {
           <Heart size={18} />
         </button>
 
-        <Link to={`/product/${product.id}`}>
+        <Link to={`/product/${product._id || product.id}`}>
           <img 
-            src={isHovered && product.hoverImage ? product.hoverImage : product.image} 
+            src={isHovered && product.images?.[1] ? product.images[1] : (product.images?.[0] || product.image || '/placeholder.jpg')} 
             alt={product.name}
             className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           />
@@ -41,7 +41,7 @@ const ProductCard = ({ product }) => {
       {/* Product Info */}
       <div className="flex flex-col flex-grow">
         <div className="flex justify-between items-start mb-1">
-          <Link to={`/product/${product.id}`} className="text-sm font-medium hover:text-accent transition-colors">
+          <Link to={`/product/${product._id || product.id}`} className="text-sm font-medium hover:text-accent transition-colors">
             {product.name}
           </Link>
         </div>

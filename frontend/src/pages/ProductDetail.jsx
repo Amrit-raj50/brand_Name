@@ -1,21 +1,48 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Star, Minus, Plus, Heart, Ruler, RefreshCcw, Truck } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
-import { products } from '../data/mockData';
 
 const ProductDetail = () => {
   const { id } = useParams();
-  // For demo, just grab the first product if id is not found or use id to find it
-  const product = products.find(p => p.id.toString() === id) || products[0];
+  
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [similarProducts, setSimilarProducts] = useState([]);
   
   const [activeTab, setActiveTab] = useState('description');
-  const [activeImage, setActiveImage] = useState(product.image);
-  const [selectedSize, setSelectedSize] = useState('M');
-  const [selectedColor, setSelectedColor] = useState(product.colors?.[0]);
+  const [activeImage, setActiveImage] = useState('');
+  const [selectedSize, setSelectedSize] = useState('');
+  const [selectedColor, setSelectedColor] = useState('');
   const [quantity, setQuantity] = useState(1);
 
-  const images = [product.image, product.hoverImage || product.image, product.image, product.hoverImage || product.image];
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const res = await fetch(`/api/products/${id}`);
+        if (!res.ok) throw new Error('Product not found');
+        const data = await res.json();
+        setProduct(data);
+        setActiveImage(data.images?.[0] || '');
+        setSelectedColor(data.colors?.[0] || '');
+        
+        // Fetch similar products
+        const resAll = await fetch('/api/products');
+        const allData = await resAll.json();
+        setSimilarProducts(allData.slice(0, 4));
+      } catch (error) {
+        console.error('Failed to fetch product:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProduct();
+  }, [id]);
+
+  if (loading) return <div className="max-w-7xl mx-auto px-4 py-24 text-center">Loading...</div>;
+  if (!product) return <div className="max-w-7xl mx-auto px-4 py-24 text-center">Product not found</div>;
+
+  const images = product.images?.length > 0 ? product.images : ['/placeholder.jpg'];
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -160,8 +187,8 @@ const ProductDetail = () => {
       <div className="py-12 border-t border-gray-100">
         <h2 className="font-serif text-3xl font-bold mb-10 text-center">You May Also Like</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {products.slice(0, 4).map(prod => (
-            <ProductCard key={prod.id} product={prod} />
+          {similarProducts.map(prod => (
+            <ProductCard key={prod._id || prod.id} product={prod} />
           ))}
         </div>
       </div>
