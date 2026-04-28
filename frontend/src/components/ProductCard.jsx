@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 
 const ProductCard = ({ product }) => {
+  const { addToCart } = useCart();
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -32,9 +34,16 @@ const ProductCard = ({ product }) => {
 
         {/* Quick Add Button */}
         <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-          <button className="w-full bg-foreground text-background py-3 text-sm font-medium hover:bg-accent transition-colors">
-            Quick Add
-          </button>
+            <button 
+              className="w-full bg-foreground text-background py-3 text-sm font-medium hover:bg-accent transition-colors"
+              onClick={(e) => {
+                e.preventDefault();
+                addToCart(product, 1, product.sizes?.[0] || '', product.colors?.[0] || '');
+                alert('Added to cart!');
+              }}
+            >
+              Quick Add
+            </button>
         </div>
       </div>
 

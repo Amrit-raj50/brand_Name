@@ -13,6 +13,7 @@ import AdminRoute from './components/AdminRoute';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminProductEdit from './pages/AdminProductEdit';
 import { AuthProvider } from './context/AuthContext';
+import { CartProvider } from './context/CartContext';
 
 // Scroll to top on route change
 const ScrollToTop = () => {
@@ -28,8 +29,9 @@ function App() {
 
   return (
     <AuthProvider>
-      <Router>
-        <ScrollToTop />
+      <CartProvider>
+        <Router>
+          <ScrollToTop />
       <div className="font-sans text-foreground bg-background min-h-screen flex flex-col">
         {/* We want to hide Navbar and Footer on Checkout page for a cleaner look, but for simplicity we will keep them or render conditionally */}
         <Routes>
@@ -61,7 +63,8 @@ function App() {
           } />
         </Routes>
       </div>
-      </Router>
+        </Router>
+      </CartProvider>
     </AuthProvider>
   );
 }

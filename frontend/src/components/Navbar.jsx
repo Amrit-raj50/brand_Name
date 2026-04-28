@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom';
 import { Search, Heart, ShoppingBag, Menu, X, User } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
 
 const Navbar = ({ onCartClick }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const { userInfo, logout } = useAuth();
+  const { cartCount } = useCart();
 
   return (
     <>
@@ -85,9 +87,11 @@ const Navbar = ({ onCartClick }) => {
                 onClick={onCartClick}
               >
                 <ShoppingBag size={20} />
-                <span className="absolute -top-1 -right-2 bg-accent text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center">
-                  2
-                </span>
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-2 bg-accent text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
               </button>
               
               {/* Mobile Menu Button */}

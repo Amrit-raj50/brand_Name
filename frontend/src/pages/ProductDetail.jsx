@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Star, Minus, Plus, Heart, Ruler, RefreshCcw, Truck } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
+import { useCart } from '../context/CartContext';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -15,6 +16,7 @@ const ProductDetail = () => {
   const [selectedSize, setSelectedSize] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
   const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -146,7 +148,13 @@ const ProductDetail = () => {
               <span className="font-medium">{quantity}</span>
               <button onClick={() => setQuantity(quantity + 1)} className="p-3 text-gray-500 hover:text-black"><Plus size={18}/></button>
             </div>
-            <button className="flex-1 bg-black text-white font-medium hover:bg-gray-800 transition-colors">
+            <button 
+              onClick={() => {
+                addToCart(product, quantity, selectedSize, selectedColor);
+                alert('Added to cart!');
+              }}
+              className="flex-1 bg-black text-white font-medium hover:bg-gray-800 transition-colors"
+            >
               Add to Cart
             </button>
             <button className="p-3 border border-gray-200 text-gray-600 hover:border-black hover:text-black transition-colors">
