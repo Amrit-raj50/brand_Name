@@ -61,10 +61,10 @@ const Home = () => {
             Discover our new collection of premium, thoughtfully designed pieces that move with you.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-            <Link to="/shop" className="bg-white text-black px-8 py-4 font-medium min-w-[200px] hover:bg-gray-100 transition-colors">
+            <Link to="/shop" className="bg-mint-white text-forest-900 px-8 py-4 font-medium min-w-[200px] hover:bg-sage-light hover:text-forest-900 transition-colors">
               Shop Now
             </Link>
-            <Link to="/shop?category=collections" className="border border-white text-white px-8 py-4 font-medium min-w-[200px] hover:bg-white hover:text-black transition-colors">
+            <Link to="/shop?category=collections" className="border border-mint-white text-mint-white px-8 py-4 font-medium min-w-[200px] hover:bg-mint-white hover:text-forest-900 transition-colors">
               Explore Collections
             </Link>
           </div>
@@ -121,7 +121,7 @@ const Home = () => {
       </section>
 
       {/* New Arrivals - Horizontal Scroll */}
-      <section className="py-20 bg-gray-50 pl-4 md:pl-8 overflow-hidden">
+      <section className="py-20 pl-4 md:pl-8 overflow-hidden">
         <div className="flex justify-between items-end pr-4 md:pr-8 max-w-7xl mx-auto mb-12">
           <h2 className="font-serif text-3xl md:text-4xl font-bold">New Arrivals</h2>
           <Link to="/shop?sort=newest" className="font-medium hover:text-accent transition-colors border-b border-black pb-1 mb-2 hidden md:inline-block">
@@ -163,10 +163,10 @@ const Home = () => {
             className="flex flex-col justify-center"
           >
             <h2 className="font-serif text-4xl md:text-5xl font-bold mb-6">Crafted with intention.</h2>
-            <p className="text-gray-600 mb-6 text-lg leading-relaxed">
+            <p className="text-mint-white/80 mb-6 text-lg leading-relaxed">
               We believe in creating pieces that transcend seasons. Every garment is meticulously designed with premium fabrics, focusing on sustainable practices and ethical production.
             </p>
-            <p className="text-gray-600 mb-10 text-lg leading-relaxed">
+            <p className="text-mint-white/80 mb-10 text-lg leading-relaxed">
               Our aesthetic is rooted in simplicity, quality, and timeless elegance. We are more than a brand; we are a lifestyle.
             </p>
             <Link to="/about" className="self-start border border-foreground text-foreground px-8 py-4 font-medium hover:bg-foreground hover:text-background transition-colors">
@@ -180,7 +180,7 @@ const Home = () => {
       <section className="py-20 px-4 md:px-8 max-w-7xl mx-auto w-full">
         <div className="text-center mb-12">
           <h2 className="font-serif text-3xl md:text-4xl font-bold mb-4">Best Sellers</h2>
-          <p className="text-gray-500">Our most loved pieces, chosen by you.</p>
+          <p className="text-sage-light">Our most loved pieces, chosen by you.</p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {bestSellers.map(product => (
@@ -213,7 +213,7 @@ const Home = () => {
       {/* Instagram UGC Grid */}
       <section className="py-20 px-4 md:px-8 max-w-7xl mx-auto w-full text-center">
         <h2 className="font-serif text-3xl md:text-4xl font-bold mb-4">@BRAND</h2>
-        <p className="text-gray-500 mb-10">Tag us to be featured on our page.</p>
+        <p className="text-sage-light mb-10">Tag us to be featured on our page.</p>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 mb-10">
           {[...Array(6)].map((_, i) => (
              <a href="#" key={i} className="group relative aspect-square overflow-hidden block">
@@ -230,19 +230,19 @@ const Home = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="py-20 bg-gray-50 px-4 md:px-8 text-center">
+      <section className="py-20 px-4 md:px-8 text-center">
         <h2 className="font-serif text-3xl md:text-4xl font-bold mb-16">Loved by many.</h2>
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
           {reviews.map(review => (
             <motion.div 
               key={review.id}
               whileHover={{ y: -10 }}
-              className="bg-white p-8 shadow-sm flex flex-col items-center text-center"
+              className="bg-forest-800 p-8 shadow-sm flex flex-col items-center text-center border border-sage-light/30"
             >
-              <div className="flex text-yellow-400 mb-6">
+              <div className="flex text-sage-light mb-6">
                 {[...Array(review.rating)].map((_, i) => <Star key={i} size={16} className="fill-current" />)}
               </div>
-              <p className="text-gray-600 italic mb-8 flex-grow">"{review.text}"</p>
+              <p className="text-mint-white/80 italic mb-8 flex-grow">"{review.text}"</p>
               <div className="flex items-center space-x-4">
                 <img src={review.image} alt={review.name} className="w-12 h-12 rounded-full object-cover" />
                 <span className="font-medium text-sm">{review.name}</span>
