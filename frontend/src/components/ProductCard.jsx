@@ -10,7 +10,7 @@ const ProductCard = ({ product }) => {
 
   return (
     <TechnicalContainer 
-      className="group flex flex-col relative h-full bg-transparent p-3"
+      className="group flex flex-col relative h-full bg-transparent p-3 transition-all duration-300 hover:bg-forest-700/40 hover:border-sage-light/60"
     >
       <div
         onMouseEnter={() => setIsHovered(true)}
@@ -42,9 +42,9 @@ const ProductCard = ({ product }) => {
         </Link>
 
         {/* Quick Add Button */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+        <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 opacity-0 group-hover:opacity-100">
             <button 
-              className="w-full bg-foreground text-background py-3 text-sm font-medium hover:bg-accent transition-colors"
+              className="w-full bg-forest-600 text-mint-white py-3 text-sm font-technical tracking-widest uppercase hover:bg-sage-light hover:text-forest-900 transition-colors border border-transparent hover:border-forest-900"
               onClick={(e) => {
                 e.preventDefault();
                 addToCart(product, 1, product.sizes?.[0] || '', product.colors?.[0] || '');
@@ -53,6 +53,7 @@ const ProductCard = ({ product }) => {
             >
               Quick Add
             </button>
+        </div>
         </div>
       </div>
 
