@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
+import TechnicalContainer from '../components/TechnicalContainer';
 import { categories, reviews, images } from '../data/mockData';
 
 const Home = () => {
@@ -28,15 +29,26 @@ const Home = () => {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img 
-            src={images.hero} 
-            alt="Hero Lifestyle" 
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/30"></div>
-        </div>
+      <section className="relative h-[90vh] flex items-center justify-center p-4 lg:p-8">
+        <TechnicalContainer className="w-full h-full relative overflow-hidden flex items-center justify-center">
+          {/* Micro text overlay */}
+          <div className="absolute top-6 left-6 text-metadata z-20 opacity-80 hidden md:block">
+            COORD: 45°N 12°E <br/>
+            SEAS: AW-01
+          </div>
+          <div className="absolute bottom-6 right-6 text-metadata text-right z-20 opacity-80 hidden md:block">
+            MTRL: NYL/GSDWN <br/>
+            FRMD: 2026
+          </div>
+
+          <div className="absolute inset-0 z-0">
+            <img 
+              src={images.hero} 
+              alt="Hero Lifestyle" 
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-forest-900/40"></div>
+          </div>
         
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
@@ -57,6 +69,7 @@ const Home = () => {
             </Link>
           </div>
         </motion.div>
+        </TechnicalContainer>
       </section>
 
       {/* Marquee Ticker */}
