@@ -32,7 +32,7 @@ function App() {
       <CartProvider>
         <Router>
           <ScrollToTop />
-      <div className="font-sans text-foreground bg-background min-h-screen flex flex-col">
+      <div className="font-sans text-foreground min-h-screen flex flex-col">
         {/* We want to hide Navbar and Footer on Checkout page for a cleaner look, but for simplicity we will keep them or render conditionally */}
         <Routes>
           <Route path="/checkout" element={<Checkout />} />
