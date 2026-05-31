@@ -18,7 +18,7 @@
   }
 
   .text-metadata {
-    @apply font-technical tracking-widest text-sage-light uppercase text-xs;
+    @apply font-technical tracking-widest text-mint-white font-medium uppercase text-xs;
   }
 }
 
