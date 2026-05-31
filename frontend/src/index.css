@@ -10,7 +10,7 @@
   }
   
   body {
-    @apply text-foreground bg-background font-sans antialiased;
+    @apply text-foreground bg-gradient-to-b from-forest-900 to-forest-700 min-h-screen font-sans antialiased;
   }
 
   h1, h2, h3, h4, h5, h6 {
