@@ -29,46 +29,79 @@ const Home = () => {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative h-[90vh] flex items-center justify-center p-4 lg:p-8">
-        <TechnicalContainer className="w-full h-full relative overflow-hidden flex items-center justify-center">
-          {/* Micro text overlay */}
-          <div className="absolute top-6 left-6 text-metadata z-20 opacity-80 hidden md:block">
-            COORD: 45°N 12°E <br/>
-            SEAS: AW-01
+      <section className="relative h-screen flex items-center justify-center p-4 lg:p-8 bg-gradient-to-b from-forest-900 to-forest-800 overflow-hidden">
+        <TechnicalContainer className="w-full h-full relative flex items-center justify-center rounded-sm">
+          
+          {/* Micro text overlay (HUD elements) */}
+          <div className="absolute top-8 left-8 text-metadata z-30 opacity-80 hidden md:block">
+            SYS.001 <br/>
+            STATUS: ACTIVE <br/>
+            COORD: 45°N 12°E
           </div>
-          <div className="absolute bottom-6 right-6 text-metadata text-right z-20 opacity-80 hidden md:block">
+          <div className="absolute bottom-8 right-8 text-metadata text-right z-30 opacity-80 hidden md:block">
             MTRL: NYL/GSDWN <br/>
+            TYPE: TACTICAL OUTERWEAR <br/>
             FRMD: 2026
           </div>
 
-          <div className="absolute inset-0 z-0">
-            <img 
-              src={images.hero} 
-              alt="Hero Lifestyle" 
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-forest-900/40"></div>
-          </div>
-        
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto"
-        >
-          <h1 className="font-serif text-5xl md:text-7xl font-bold mb-6 tracking-tight">Wear Your Story.</h1>
-          <p className="text-lg md:text-xl font-light mb-10 max-w-2xl mx-auto">
-            Discover our new collection of premium, thoughtfully designed pieces that move with you.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-            <Link to="/shop" className="bg-mint-white text-forest-900 px-8 py-4 font-medium min-w-[200px] hover:bg-sage-light hover:text-forest-900 transition-colors">
-              Shop Now
-            </Link>
-            <Link to="/shop?category=collections" className="border border-mint-white text-mint-white px-8 py-4 font-medium min-w-[200px] hover:bg-mint-white hover:text-forest-900 transition-colors">
-              Explore Collections
-            </Link>
-          </div>
-        </motion.div>
+          {/* Floating Thumbnails */}
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, delay: 0.5 }}
+            className="absolute left-4 md:left-12 lg:left-24 top-1/4 w-28 md:w-36 aspect-[3/4] border border-sage-light/30 p-1 z-20 hidden sm:block bg-forest-900/50 backdrop-blur-sm"
+          >
+            <img src={products[0]?.hoverImage || images.editorial} alt="Detail 1" className="w-full h-full object-cover opacity-80 grayscale hover:grayscale-0 transition-all duration-500" />
+            <div className="absolute -bottom-6 left-0 text-[10px] font-technical tracking-widest text-sage-light uppercase">Fig. A</div>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, delay: 0.7 }}
+            className="absolute right-4 md:right-12 lg:right-24 bottom-1/4 w-32 md:w-48 aspect-square border border-sage-light/30 p-1 z-20 hidden sm:block bg-forest-900/50 backdrop-blur-sm"
+          >
+            <img src={products[1]?.image || images.editorial} alt="Detail 2" className="w-full h-full object-cover opacity-80 grayscale hover:grayscale-0 transition-all duration-500" />
+            <div className="absolute -top-6 right-0 text-[10px] font-technical tracking-widest text-sage-light uppercase">Fig. B</div>
+          </motion.div>
+
+          {/* Central Product Image (Giant) */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="relative z-10 w-[90%] md:w-[70%] max-w-2xl h-[60vh] md:h-[75vh] flex items-center justify-center -mt-10"
+          >
+             <img 
+               src={products[0]?.image || images.hero} 
+               alt="Flagship Product" 
+               className="w-full h-full object-contain drop-shadow-2xl brightness-110 contrast-125"
+             />
+          </motion.div>
+
+          {/* HUD Product Details Overlay */}
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="absolute bottom-10 md:bottom-16 left-0 right-0 z-30 flex flex-col items-center justify-center pointer-events-none px-4"
+          >
+            <div className="text-center bg-forest-900/60 backdrop-blur-md p-6 border border-sage-light/30 rounded-sm pointer-events-auto min-w-[300px] md:min-w-[450px]">
+              <div className="text-sage-light font-technical text-xs tracking-widest mb-2 uppercase">Core Collection // AW-26</div>
+              <h1 className="font-serif text-3xl md:text-5xl font-bold mb-2 text-mint-white tracking-tight">{products[0]?.name || 'Flagship Item'}</h1>
+              <div className="text-mint-white font-technical text-xl tracking-wider mb-6">₹{products[0]?.price || '3499'}</div>
+              
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Link to={`/product/${products[0]?.id || products[0]?._id || 1}`} className="bg-mint-white text-forest-900 px-8 py-3 font-technical text-sm tracking-widest uppercase hover:bg-sage-light transition-colors min-w-[200px] border border-transparent">
+                  Inspect Item
+                </Link>
+                <button className="bg-transparent border border-mint-white text-mint-white px-8 py-3 font-technical text-sm tracking-widest uppercase hover:bg-mint-white hover:text-forest-900 transition-colors min-w-[200px]">
+                  Quick Add
+                </button>
+              </div>
+            </div>
+          </motion.div>
+          
         </TechnicalContainer>
       </section>
 
