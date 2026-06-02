@@ -23,8 +23,8 @@ const Home = () => {
     fetchProducts();
   }, []);
 
-  const newArrivals = products.filter(p => p.isNewArrival);
-  const bestSellers = products.slice(0, 4);
+  const newArrivals = products.filter(p => p.isNewArrival ?? p.isNew);
+  const bestSellers = products.filter(p => p.isBestSeller).slice(0, 4);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -161,18 +161,18 @@ const Home = () => {
             View All
           </Link>
         </div>
-        <div className="flex overflow-x-auto pb-8 snap-x snap-mandatory hide-scrollbar gap-6 pr-4 md:pr-8">
-          {newArrivals.map(product => (
-            <div key={product._id || product.id} className="min-w-[280px] md:min-w-[320px] snap-start">
-              <ProductCard product={product} />
+        <div className="flex justify-center overflow-x-auto pb-8 snap-x snap-mandatory hide-scrollbar gap-6 pr-4 md:pr-8">
+          {newArrivals.length > 0 ? (
+            newArrivals.map(product => (
+              <div key={product._id || product.id} className="min-w-[280px] md:min-w-[320px] snap-start">
+                <ProductCard product={product} />
+              </div>
+            ))
+          ) : (
+            <div className="w-full py-10 text-center text-sage-light">
+              No new arrivals available right now.
             </div>
-          ))}
-          {/* Duplicate products for demo scroll width */}
-          {newArrivals.map(product => (
-             <div key={`${product._id || product.id}-dup`} className="min-w-[280px] md:min-w-[320px] snap-start">
-               <ProductCard product={product} />
-             </div>
-          ))}
+          )}
         </div>
       </section>
 
