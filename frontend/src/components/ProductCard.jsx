@@ -7,6 +7,10 @@ import TechnicalContainer from './TechnicalContainer';
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
   const [isHovered, setIsHovered] = useState(false);
+  const isNew = product.isNewArrival ?? product.isNew;
+  const productId = product._id || product.id;
+  const primaryImage = product.images?.[0] || product.image || '/placeholder.jpg';
+  const hoverImage = product.images?.[1] || product.images?.[0] || product.image || '/placeholder.jpg';
 
   return (
     <TechnicalContainer 
@@ -24,7 +28,7 @@ const ProductCard = ({ product }) => {
             SYS.{product._id?.substring(0, 6) || product.id?.substring(0, 6) || '7X9V2'}
           </div>
 
-          {product.isNewArrival && (
+          {isNew && (
             <div className="absolute top-3 left-3 bg-mint-white text-forest-900 text-[10px] font-bold px-2 py-1 uppercase tracking-wider z-10">
               New
             </div>
@@ -33,9 +37,9 @@ const ProductCard = ({ product }) => {
             <Heart size={18} />
           </button>
 
-        <Link to={`/product/${product._id || product.id}`}>
+        <Link to={`/product/${productId}`}>
           <img 
-            src={isHovered && product.images?.[1] ? product.images[1] : (product.images?.[0] || product.image || '/placeholder.jpg')} 
+            src={isHovered ? hoverImage : primaryImage}
             alt={product.name}
             className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           />
